@@ -42,7 +42,9 @@ app.use(
     }
   })
 );
-
+app.get('/', (req, res) => {
+  res.json({ a: 'test' });
+});
 app.post('/get-a-quote', async (req, res) => {
   try {
     const newFormData = new FormData({
