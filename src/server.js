@@ -1,9 +1,8 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import FormData from './model/formData';
+const dotenv = require('dotenv');
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const FormData = require('./model/formData');
 
 dotenv.config();
 const app = express();
@@ -25,10 +24,10 @@ mongoose
   });
 
 app.use(cors());
-app.use(bodyParser.json());
 
 app.post('/get-a-quote', async (req, res) => {
   try {
+    console.log(req.body);
     const newFormData = new FormData({
       fullname: req.body.fullname,
       email: req.body.email,
@@ -39,6 +38,7 @@ app.post('/get-a-quote', async (req, res) => {
       services: req.body.services,
       message: req.body.message
     });
+
     await newFormData.save();
     res.json({ newFormData });
   } catch (error) {

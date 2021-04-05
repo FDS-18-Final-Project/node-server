@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+const { Schema, model } = require('mongoose');
 
 const formDataSchema = new Schema(
   {
@@ -18,4 +18,4 @@ const formDataSchema = new Schema(
 
 const FormData = model('formData', formDataSchema);
 
-export default FormData;
+module.exports = FormData;
