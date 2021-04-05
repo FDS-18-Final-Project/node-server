@@ -3,12 +3,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const FormData = require('./model/formData');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.EMAIL_API_KEY);
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT;
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./'));
+app.use(cors());
+app.use(express.json());
 
 // db
 mongoose
@@ -23,11 +27,8 @@ mongoose
     console.log(err);
   });
 
-app.use(cors());
-
 app.post('/get-a-quote', async (req, res) => {
   try {
-    console.log(req.body);
     const newFormData = new FormData({
       fullname: req.body.fullname,
       email: req.body.email,
@@ -38,8 +39,16 @@ app.post('/get-a-quote', async (req, res) => {
       services: req.body.services,
       message: req.body.message
     });
-
+    const msg = {
+      to: req.body.email,
+      from: 'jaelee9212@gmail.com', // Use the email address or domain you verified above
+      subject: 'MM Auto Care - Confirmation',
+      text: req.body.message,
+      html: '<strong>and easy to do anywhere, even with Node.js</strong>'
+    };
     await newFormData.save();
+    console.log(msg);
+    await sgMail.send(msg);
     res.json({ newFormData });
   } catch (error) {
     console.log(error);
