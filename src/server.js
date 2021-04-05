@@ -12,6 +12,7 @@ const PORT = process.env.PORT;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./'));
 app.use(express.json());
+app.use(cors());
 
 // db
 mongoose
@@ -26,7 +27,7 @@ mongoose
     console.log(err);
   });
 
-app.post('/get-a-quote', async (req, res) => {
+app.post('/get-a-quote', cors(), async (req, res) => {
   try {
     const newFormData = new FormData({
       fullname: req.body.fullname,
