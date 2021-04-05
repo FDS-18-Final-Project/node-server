@@ -1,12 +1,10 @@
-const dotenv = require('dotenv');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const FormData = require('./model/formData');
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.EMAIL_API_KEY);
 
-dotenv.config();
+require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT;
 app.use(express.urlencoded({ extended: true }));
@@ -42,9 +40,9 @@ app.use(
     }
   })
 );
-app.get('/', (req, res) => {
-  res.json({ a: 'test' });
-});
+console.log(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 app.post('/get-a-quote', async (req, res) => {
   try {
     const newFormData = new FormData({
@@ -64,9 +62,11 @@ app.post('/get-a-quote', async (req, res) => {
       text: req.body.message,
       html: '<strong>and easy to do anywhere, even with Node.js</strong>'
     };
-    await newFormData.save();
+
     console.log(msg);
-    await sgMail.send(msg);
+    sgMail.send(msg);
+    await newFormData.save();
+
     res.json({ newFormData });
   } catch (error) {
     console.log(error);
