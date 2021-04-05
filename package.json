@@ -1,5 +1,5 @@
 {
-  "name": "MM Auto Care Web server",
+  "name": "node-server",
   "version": "1.0.0",
   "description": "Web Server for MM Auto Care",
   "main": "src/server.ts",

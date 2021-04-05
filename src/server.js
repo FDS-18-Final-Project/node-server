@@ -43,7 +43,7 @@ app.use(
   })
 );
 
-app.post('/get-a-quote', cors(), async (req, res) => {
+app.post('/get-a-quote', async (req, res) => {
   try {
     const newFormData = new FormData({
       fullname: req.body.fullname,
