@@ -1,5 +1,5 @@
 const path = require('path');
-
+const nodeExternals = require('webpack-node-externals');
 module.exports = {
   // entry file
   // https://webpack.js.org/configuration/entry-context/#entry
@@ -12,6 +12,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   target: 'node',
+  externals: [nodeExternals()], // Need this to avoid error when working with Express
   node: {
     // Need this when working with express, otherwise the build fails
     __dirname: false, // if you don't put this is, __dirname
