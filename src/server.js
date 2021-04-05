@@ -12,7 +12,6 @@ const PORT = process.env.PORT;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./'));
 app.use(express.json());
-app.use(cors());
 
 // db
 mongoose
@@ -26,6 +25,7 @@ mongoose
   .catch(err => {
     console.log(err);
   });
+app.use(cors());
 
 app.post('/get-a-quote', cors(), async (req, res) => {
   try {
